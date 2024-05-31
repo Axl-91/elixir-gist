@@ -1,7 +1,5 @@
 .PHONY: up down setup build run lint fmt test test.watch
 
-include .env
-
 up:
 	docker-compose up -d
 
