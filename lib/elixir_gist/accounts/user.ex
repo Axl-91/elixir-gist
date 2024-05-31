@@ -11,6 +11,10 @@ defmodule ElixirGist.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    has_many :gists, ElixirGist.Gists.Gist
+    has_many :saved_gists, ElixirGist.Gists.SavedGist
+    has_many :comments, ElixirGist.Comments.Comment
+
     timestamps(type: :utc_datetime)
   end
 

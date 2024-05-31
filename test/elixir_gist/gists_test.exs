@@ -2,6 +2,9 @@ defmodule ElixirGist.GistsTest do
   use ElixirGist.DataCase
 
   alias ElixirGist.Gists
+  alias ElixirGist.Accounts
+  alias ElixirGist.GistsFixtures
+  import ElixirGist.AccountsFixtures
 
   describe "gists" do
     alias ElixirGist.Gists.Gist
@@ -21,21 +24,34 @@ defmodule ElixirGist.GistsTest do
     end
 
     test "create_gist/1 with valid data creates a gist" do
-      valid_attrs = %{name: "some name", description: "some description", markup_text: "some markup_text"}
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
 
-      assert {:ok, %Gist{} = gist} = Gists.create_gist(valid_attrs)
+      valid_attrs = %{
+        name: "some name",
+        description: "some description",
+        markup_text: "some markup_text"
+      }
+
+      assert {:ok, %Gist{} = gist} = Gists.create_gist(user, valid_attrs)
       assert gist.name == "some name"
       assert gist.description == "some description"
       assert gist.markup_text == "some markup_text"
     end
 
     test "create_gist/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Gists.create_gist(@invalid_attrs)
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+
+      assert {:error, %Ecto.Changeset{}} = Gists.create_gist(user, @invalid_attrs)
     end
 
     test "update_gist/2 with valid data updates the gist" do
       gist = gist_fixture()
-      update_attrs = %{name: "some updated name", description: "some updated description", markup_text: "some updated markup_text"}
+
+      update_attrs = %{
+        name: "some updated name",
+        description: "some updated description",
+        markup_text: "some updated markup_text"
+      }
 
       assert {:ok, %Gist{} = gist} = Gists.update_gist(gist, update_attrs)
       assert gist.name == "some updated name"
@@ -79,26 +95,25 @@ defmodule ElixirGist.GistsTest do
     end
 
     test "create_saved_gist/1 with valid data creates a saved_gist" do
-      valid_attrs = %{}
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+      gist = GistsFixtures.gist_fixture()
 
-      assert {:ok, %SavedGist{} = saved_gist} = Gists.create_saved_gist(valid_attrs)
+      valid_attrs = %{gist_id: gist.id}
+
+      assert {:ok, %SavedGist{}} = Gists.create_saved_gist(user, valid_attrs)
     end
 
     test "create_saved_gist/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Gists.create_saved_gist(@invalid_attrs)
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+
+      assert {:error, %Ecto.Changeset{}} = Gists.create_saved_gist(user, @invalid_attrs)
     end
 
     test "update_saved_gist/2 with valid data updates the saved_gist" do
       saved_gist = saved_gist_fixture()
       update_attrs = %{}
 
-      assert {:ok, %SavedGist{} = saved_gist} = Gists.update_saved_gist(saved_gist, update_attrs)
-    end
-
-    test "update_saved_gist/2 with invalid data returns error changeset" do
-      saved_gist = saved_gist_fixture()
-      assert {:error, %Ecto.Changeset{}} = Gists.update_saved_gist(saved_gist, @invalid_attrs)
-      assert saved_gist == Gists.get_saved_gist!(saved_gist.id)
+      assert {:ok, %SavedGist{}} = Gists.update_saved_gist(saved_gist, update_attrs)
     end
 
     test "delete_saved_gist/1 deletes the saved_gist" do

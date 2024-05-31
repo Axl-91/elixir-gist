@@ -2,6 +2,9 @@ defmodule ElixirGist.CommentsTest do
   use ElixirGist.DataCase
 
   alias ElixirGist.Comments
+  alias ElixirGist.Accounts
+  alias ElixirGist.GistsFixtures
+  import ElixirGist.AccountsFixtures
 
   describe "comments" do
     alias ElixirGist.Comments.Comment
@@ -21,14 +24,19 @@ defmodule ElixirGist.CommentsTest do
     end
 
     test "create_comment/1 with valid data creates a comment" do
-      valid_attrs = %{markup_text: "some markup_text"}
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+      gist = GistsFixtures.gist_fixture()
 
-      assert {:ok, %Comment{} = comment} = Comments.create_comment(valid_attrs)
+      valid_attrs = %{markup_text: "some markup_text", gist_id: gist.id}
+
+      assert {:ok, %Comment{} = comment} = Comments.create_comment(user, valid_attrs)
       assert comment.markup_text == "some markup_text"
     end
 
     test "create_comment/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Comments.create_comment(@invalid_attrs)
+      {:ok, user} = Accounts.register_user(valid_user_attributes())
+
+      assert {:error, %Ecto.Changeset{}} = Comments.create_comment(user, @invalid_attrs)
     end
 
     test "update_comment/2 with valid data updates the comment" do
