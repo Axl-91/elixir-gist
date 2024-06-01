@@ -9,10 +9,10 @@ down:
 build:
 	mix do deps.get + compile
 
-migrate: build
+migrate:
 	mix ecto.migrate
 
-run: build migrate 
+run: 
 	iex -S mix phx.server
 
 run-server-only:

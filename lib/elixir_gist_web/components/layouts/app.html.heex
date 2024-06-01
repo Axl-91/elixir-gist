@@ -7,10 +7,10 @@
       <div class="text-white font-brand font-bold text-3xl">Gist</div>
     </a>
     <div>
-      <input 
-        type="text" 
+      <input
+        type="text"
         class="rounded-lg focus:outline-none focus:border-emLavander focus:ring-0 px-4 py-2 bg-emDark-dark placeholder-emDark-light text-white font-brand font-regular text-sm mr-5 border-white"
-        placeholder="Search..." 
+        placeholder="Search..."
         />
       <button class="mt-2 mr-2 text-white text-[1.05rem] font-brand font-bold hover:text-emLavander">
         All gists
@@ -21,13 +21,13 @@
     <button class="img-down-arrow px-4 py-1" type="button" id="user-menu-button" phx-click={ElixirGistWeb.Layouts.App.toggle_dropdown_menu()}>
       <img src="/images/user-image.svg" alt="Profile Image" class="round-image-padding w-8 h-8" />
     </button>
-    <div 
-      id="dropdown_menu" 
+    <div
+      id="dropdown_menu"
       phx-click-away={ElixirGistWeb.Layouts.App.toggle_dropdown_menu()}
       class="dropdown-menu-arrow absolute right-4 mt-2 py-2 w-48 bg-emDark rounded-lg shadow-xl border border-white text-white"
       hidden="true">
       <%= if @current_user do %>
-        <.link 
+        <.link
           href={~p"/users/settings"}
           class="menu-item border-b border-white border-opacity-50"
           role="menuitem"
@@ -36,7 +36,7 @@
           id="user-menu-item-0">
             <%= @current_user.email %>
         </.link>
-        <.link 
+        <.link
           href={~p"/#"}
           class="menu-item"
           role="menuitem"
@@ -45,7 +45,7 @@
           id="user-menu-item-0">
             Your Gists
         </.link>
-        <.link 
+        <.link
           href={~p"/#"}
           class="menu-item border-b border-white border-opacity-50"
           role="menuitem"
@@ -54,7 +54,7 @@
           id="user-menu-item-1">
             Saved Gists
         </.link>
-        <.link 
+        <.link
           href={~p"/users/log_out"}
           class="menu-item"
           role="menuitem"
@@ -64,7 +64,7 @@
           Sign out
         </.link>
       <% else %>
-        <.link 
+        <.link
           href={~p"/users/log_in"}
           class="menu-item border-b border-white border-opacity-50"
           role="menuitem"
@@ -73,7 +73,7 @@
           id="user-menu-item-0">
             Sign in
         </.link>
-        <.link 
+        <.link
           href={~p"/users/register"}
           class="menu-item"
           role="menuitem"
@@ -90,3 +90,18 @@
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>
+<footer class="h-[120px] w-full flex justify-start text-white px-16 py-20 font-brand font-regular">
+  <div class="w-full px-10">
+    <div class="border-t-[1px] border-white w-full">
+      <div class="flex items-center space-x-2 py-6">
+        <img src="/images/gist-logo.svg" alt="Elixir Logo" class="h-8 w-8" />
+        <p>© 2024 ElixirGist</p>
+        <div class="text-emLavander-dark px-10 space-x-4">
+          <a href={~p"/"} class="hover:underline">Terms</a>
+          <a href={~p"/"} class="hover:underline">Privacy</a>
+          <a href={~p"/"} class="hover:underline">About</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
