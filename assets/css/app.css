@@ -17,16 +17,35 @@
     font-style: normal;
 }
 
+.dropdown-menu-arrow::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: calc(95% - 11px);
+    border-width: 0 6px 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+
+}
+
+.menu-item {
+    @apply block px-4 py-2 text-sm text-white font-brand font-regular
+}
+
+.menu-item:hover {
+    @apply hover:bg-emDark-light
+}
+
 .round-image-padding {
     border-radius: 50%;
-    border: 1.5px solid #FFFFFF;
+    border: 1.5px solid #ffffff81;
     padding: 1px;
 }
 
 .img-down-arrow::after{
     content: "";
     position: absolute;
-    right: -5px;
+    right: 5px;
     top: 45%;
     transform: translateY(-50%);
     border-width: 3px 3px 0 3px;
