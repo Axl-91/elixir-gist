@@ -202,9 +202,9 @@ defmodule ElixirGistWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8 bg-white">
+      <div class="mt-10 space-y-8 bg-purple-950 rounded-lg border border-purple-900">
         <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+        <div :for={action <- @actions} class="rounded-lg text-white mt-2 flex items-center justify-between gap-6">
           <%= render_slot(action, f) %>
         </div>
       </div>
@@ -231,7 +231,7 @@ defmodule ElixirGistWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-emPurple-dark hover:bg-emPurple py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -310,7 +310,7 @@ defmodule ElixirGistWeb.CoreComponents do
 
     ~H"""
     <div phx-feedback-for={@name}>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="bg-purple-950 flex px-1 items-center gap-3 text-sm leading-6 text-white">
         <input type="hidden" name={@name} value="false" />
         <input
           type="checkbox"
@@ -398,7 +398,7 @@ defmodule ElixirGistWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="rounded-lg bg-emPurple-dark text-center text-white block text-sm font-semibold leading-6">
       <%= render_slot(@inner_block) %>
     </label>
     """
@@ -431,10 +431,10 @@ defmodule ElixirGistWeb.CoreComponents do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
       <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
+        <h1 class="text-lg font-semibold leading-8 text-white">
           <%= render_slot(@inner_block) %>
         </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
+        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-white">
           <%= render_slot(@subtitle) %>
         </p>
       </div>
