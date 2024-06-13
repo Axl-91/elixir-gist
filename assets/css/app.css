@@ -41,6 +41,30 @@
     @apply hover:bg-emDark-light
 }
 
+form input[type="text"] {
+    @apply bg-emDark-dark font-brand font-regular text-white text-xs border border-white
+}
+
+form input[type="text"]:focus {
+    @apply focus:outline-none focus:border-emLavander focus:ring-0
+}
+
+.textarea {
+    @apply bg-emDark-dark font-brand font-regular text-white text-xs border border-white h-[300px] resize-none;
+}
+
+.textarea:focus {
+    @apply focus:outline-none focus:border-white focus:ring-0
+}
+
+.create_button {
+    @apply bg-emPurple border border-white font-brand font-regular text-white text-base
+}
+
+.create_button:hover {
+    @apply hover:bg-emPurple-dark
+}
+
 .round-image-padding {
     border-radius: 50%;
     border: 1.5px solid #ffffff81;
