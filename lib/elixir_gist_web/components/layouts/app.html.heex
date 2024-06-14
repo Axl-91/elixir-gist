@@ -42,7 +42,7 @@
           role="menuitem"
           tabindex="-1"
           method="get"
-          id="user-menu-item-0">
+          id="user-menu-item-1">
             Your Gists
         </.link>
         <.link
@@ -51,7 +51,7 @@
           role="menuitem"
           tabindex="-1"
           method="get"
-          id="user-menu-item-1">
+          id="user-menu-item-2">
             Saved Gists
         </.link>
         <.link
@@ -60,7 +60,7 @@
           role="menuitem"
           tabindex="-1"
           method="delete"
-          id="user-menu-item-2">
+          id="user-menu-item-3">
           Sign out
         </.link>
       <% else %>
@@ -86,10 +86,12 @@
     </div>
   </div>
 </header>
+
 <main>
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>
+
 <footer class="h-[120px] w-full flex justify-start text-white px-16 py-20 font-brand font-regular">
   <div class="w-full px-10">
     <div class="border-t-[1px] border-white w-full">
