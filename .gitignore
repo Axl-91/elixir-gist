@@ -10,5 +10,6 @@
 
 # Assets
 /priv/static/assets
+/assets/node_modules
 
 /.vscode
