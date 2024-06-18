@@ -8,6 +8,7 @@ defmodule ElixirGist.Gists do
 
   alias ElixirGist.Gists.Gist
   alias ElixirGist.Gists.SavedGist
+  alias ElixirGist.Accounts.User
 
   @doc """
   Returns the list of gists.
@@ -87,8 +88,15 @@ defmodule ElixirGist.Gists do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_gist(%Gist{} = gist) do
-    Repo.delete(gist)
+  def delete_gist(%User{} = user, gist_id) do
+    gist = get_gist!(gist_id)
+
+    if user.id == gist.user_id do
+      Repo.delete(gist)
+      {:ok, gist}
+    else
+      {:error, :unauthorized}
+    end
   end
 
   @doc """
