@@ -12,6 +12,14 @@ defmodule ElixirGistWeb.GistLive do
     {:ok, socket}
   end
 
+  def handle_event("copy", _, socket) do
+    socket =
+      socket
+      |> put_flash(:info, "Copied To Clipboard")
+
+    {:noreply, socket}
+  end
+
   def handle_event("delete", %{"id" => id}, socket) do
     case Gists.delete_gist(socket.assigns.current_user, id) do
       {:ok, _gist} ->

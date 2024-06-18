@@ -54,11 +54,12 @@
                     <img src="/images/edit.svg" alt="Edit Button">
                 </button>
             <% end %>
-            
+
             <button 
                 id="copy-button" 
                 class="interactive-img-btn px-1"
                 type="button"
+                phx-click="copy"
                 phx-hook="CopyToClipboard"
                 data-clipboard-gist={@gist.markup_text}
             >
@@ -66,12 +67,12 @@
             </button>
         </div>
     </div>
-    <div id="gist-wrapper" class="flex w-full">
+    <div id="gist-wrapper" class="flex w-full" phx-update="ignore">
         <textarea id="line-numbers" class="syntax-numbers rounded-bl-md" readonly>
             <%= "1\n" %>
         </textarea>
 
-        <div id="highlight" class="syntax-area w-full ruonded-bl-md" phx-hook="Highlight", data-name={@gist.name}>
+        <div id="highlight" class="syntax-area w-full ruonded-bl-md" phx-hook="Highlight", data-name={@gist.name} phx-update="ignore">
             <pre><code class="language-elixir">
                     <%= @gist.markup_text %>
             </code></pre>
