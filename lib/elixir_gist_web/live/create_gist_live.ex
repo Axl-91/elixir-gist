@@ -1,41 +1,26 @@
 defmodule ElixirGistWeb.CreateGistLive do
-  alias ElixirGist.Gists
-  alias ElixirGist.Gists.Gist
   use ElixirGistWeb, :live_view
 
+  alias ElixirGistWeb.GistFormComponent
+  alias ElixirGist.{Gists, Gists.Gist}
+
   def mount(_params, _session, socket) do
-    socket = socket_with_new_gist_form(socket)
+    socket =
+      socket
+      |> assign(form: to_form(Gists.change_gist(%Gist{})))
 
     {:ok, socket}
   end
 
-  def handle_event("validate", %{"gist" => params}, socket) do
-    gist_changeset =
-      %Gist{}
-      |> Gists.change_gist(params)
-      |> Map.put(:action, :validate)
+  def render(assigns) do
+    ~H"""
+      <div class="em-gradient flex items-center justify-center">
+        <h1 class="font-brand font-bold text-3xl text-white">
+            Instantly share Elixir code, notes, and snippets.
+        </h1>
+      </div>
 
-    {:noreply, assign(socket, form: to_form(gist_changeset))}
-  end
-
-  def handle_event("create", %{"gist" => params}, socket) do
-    case Gists.create_gist(socket.assigns.current_user, params) do
-      {:ok, gist} ->
-        socket =
-          socket
-          |> socket_with_new_gist_form()
-          |> push_event("clear-textarea", %{})
-          |> push_navigate(to: ~p"/gist?#{[id: gist]}")
-
-        {:noreply, socket}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, form: to_form(changeset))}
-    end
-  end
-
-  defp socket_with_new_gist_form(socket) do
-    gist_changeset = Gists.change_gist(%Gist{})
-    assign(socket, form: to_form(gist_changeset))
+      <.live_component module={GistFormComponent} id={:new} form={@form} current_user={@current_user} />
+    """
   end
 end

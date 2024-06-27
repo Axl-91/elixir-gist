@@ -1,13 +1,22 @@
 defmodule ElixirGistWeb.GistLive do
-  alias ElixirGist.Gists
   use ElixirGistWeb, :live_view
+
+  alias ElixirGist.Gists
+  alias ElixirGistWeb.GistFormComponent
 
   def mount(%{"id" => id}, _session, socket) do
     gist = Gists.get_gist!(id)
 
+    {:ok, last_updated_time} =
+      Timex.format(gist.updated_at, "{relative}", :relative)
+
+    gist =
+      Map.put(gist, :last_updated_time, last_updated_time)
+
     socket =
       socket
       |> assign(gist: gist)
+      |> assign(form: to_form(Gists.change_gist(gist)))
 
     {:ok, socket}
   end
@@ -26,7 +35,7 @@ defmodule ElixirGistWeb.GistLive do
         socket =
           socket
           |> put_flash(:info, "Gist Successfully Deleted")
-          |> push_navigate(~p"/create")
+          |> push_navigate(to: ~p"/create")
 
         {:noreply, socket}
 
@@ -37,7 +46,5 @@ defmodule ElixirGistWeb.GistLive do
 
         {:noreply, socket}
     end
-
-    {:noreply, socket}
   end
 end

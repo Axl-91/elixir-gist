@@ -11,7 +11,7 @@
                     <%= @current_user.email %><span class="text-white"> / </span><%= @gist.name %>
                 </div>
                 <div class="text-lg text-white font-bold">
-                    <%= @gist.updated_at %>
+                    <%= @gist.last_updated_time %>
                 </div>
                 <p class="text-left text-sm text-white font-brand">
                     <%= @gist.description %>
@@ -30,52 +30,59 @@
     </div>
 </div>
 
-<div class="justify-center px-28 w-full mb-10">
-    <div class="flex p-2 items-center justify-between bg-emDark rounded-t-md border">
-        <div class="w-[300px] pl-2 font-brand font-bold text-base text-white">
-            <%= @gist.name %>
-        </div>
-        <div>
-            <%= if @current_user.id == @gist.user_id do %>
-                <button 
-                    class="interactive-img-btn px-1" 
-                    type="button" 
-                    phx-click="delete" 
-                    phx-value-id={@gist.id}
-                >
-                    <img src="/images/delete.svg" alt="Delete Button">
-                </button>
+<div id="edit-section" style="display:none">
+    <.live_component module={GistFormComponent} id={@gist.id} form={@form} current_user={@current_user} />
+</div>
+
+<div id="show-section" style="display:block">
+    <div class="justify-center px-28 w-full mb-10">
+        <div class="flex p-2 items-center justify-between bg-emDark rounded-t-md border">
+            <div class="w-[300px] pl-2 font-brand font-bold text-base text-white">
+                <%= @gist.name %>
+            </div>
+            <div>
+                <%= if @current_user.id == @gist.user_id do %>
+                    <button 
+                        class="interactive-img-btn px-1" 
+                        type="button" 
+                        phx-click="delete" 
+                        phx-value-id={@gist.id}
+                    >
+                        <img src="/images/delete.svg" alt="Delete Button">
+                    </button>
+
+                    <button 
+                        id="edit-button"
+                        class="interactive-img-btn px-1" 
+                        type="button" 
+                        phx-hook="ToggleEdit"
+                    >
+                        <img src="/images/edit.svg" alt="Edit Button">
+                    </button>
+                <% end %>
 
                 <button 
-                    class="interactive-img-btn px-1" 
-                    type="button" 
-                    phx-click={}
+                    id="copy-button" 
+                    class="interactive-img-btn px-1"
+                    type="button"
+                    phx-click="copy"
+                    phx-hook="CopyToClipboard"
+                    data-clipboard-gist={@gist.markup_text}
                 >
-                    <img src="/images/edit.svg" alt="Edit Button">
+                    <img src="/images/copy.svg" alt="Copy Button">
                 </button>
-            <% end %>
-
-            <button 
-                id="copy-button" 
-                class="interactive-img-btn px-1"
-                type="button"
-                phx-click="copy"
-                phx-hook="CopyToClipboard"
-                data-clipboard-gist={@gist.markup_text}
-            >
-                <img src="/images/copy.svg" alt="Copy Button">
-            </button>
+            </div>
         </div>
-    </div>
-    <div id="gist-wrapper" class="flex w-full" phx-update="ignore">
-        <textarea id="line-numbers" class="syntax-numbers rounded-bl-md" readonly>
-            <%= "1\n" %>
-        </textarea>
+        <div id="gist-wrapper-show" class="flex w-full" phx-update="ignore">
+            <textarea id="line-numbers-show" class="syntax-numbers rounded-bl-md" readonly>
+                <%= "1\n" %>
+            </textarea>
 
-        <div id="highlight" class="syntax-area w-full ruonded-bl-md" phx-hook="Highlight", data-name={@gist.name} phx-update="ignore">
-            <pre><code class="language-elixir">
-                    <%= @gist.markup_text %>
-            </code></pre>
+            <div id="highlight" class="syntax-area w-full ruonded-bl-md" phx-hook="Highlight", data-name={@gist.name} phx-update="ignore">
+                <pre><code class="language-elixir">
+                        <%= @gist.markup_text %>
+                </code></pre>
+            </div>
         </div>
     </div>
 </div>
